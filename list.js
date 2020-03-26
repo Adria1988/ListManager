@@ -1,11 +1,14 @@
-module.exports = function List() {
-  const JSON_FILENAME = 'lists.json';
+module.exports = function List(jsonfile) {
+  const JSON_FILENAME = "lists.json";
+  this.jsonfile = jsonfile;
 
-  this.getLists = function(jsonfile){
-  return  jsonfile.readFileSync(JSON_FILENAME);
+  this.getLists = function() {
+    return this.jsonfile.readFileSync(JSON_FILENAME);
   }
 
-  this.createList = function{
-
+  this.createList = function(listName) {
+    var lists = this.getLists();
+    lists[listName] = [];
+    jsonfile.writeFileSync(JSON_FILENAME, lists);
   }
 };

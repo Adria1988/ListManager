@@ -5,37 +5,39 @@ var jsonfile = require("jsonfile");
 var List = require("../list.js");
 
 suite("List", function() {
-  setup(function() {});
+
+  const JSON_FILENAME = "lists.json";
+  var mockJsonfile = null;
+  setup(function() {
+  this.mockJsonfile = sinon.mock(jsonfile);
+
+  });
 
   test("should get all lists", function() {
     //Arrange
-    var mockJsonfile = sinon.mock(jsonfile);
-    var filemame = 'lists.json';
     var emptyLists = {};
-    mockJsonfile.expects('readFileSync').once().withArgs(filemame).returns(emptyLists);
-    var listObejct = new List();
+    this.mockJsonfile.expects('readFileSync').once().withArgs(JSON_FILENAME).returns(emptyLists);
+    var listObejct = new List(jsonfile);
     //Act
-    var result = listObejct.getLists(jsonfile);
+    var result = listObejct.getLists();
     //Assert
     assert.equal(emptyLists,result);
-    mockJsonfile.verify();
+    this.mockJsonfile.verify();
   });
 
   test('should create a new list with name',function(){
     //Arrange
-    var mockJsonfile = sinon.mock(jsonfile);
-    var filemame = 'lists.json';
     var emptyLists = {};
-    mockJsonfile.expects('readFileSync').once().withArgs(filemame).returns(emptyLists);
+    this.mockJsonfile.expects('readFileSync').once().withArgs(JSON_FILENAME).returns(emptyLists);
     var lists = {};
     var listName = 'ToDo';
     lists[listName] = [];
-    mockJsonfile.expects('writeFileSync').once().withArgs(filemame,lists);
-    var listObejct = new List();
+    this.mockJsonfile.expects('writeFileSync').once().withArgs(JSON_FILENAME,lists);
+    var listObejct = new List(jsonfile);
 
     //Act
     listObejct.createList(listName);
     //Assert
-    mockJsonfile.verify();
+    this.mockJsonfile.verify();
   });
 });
