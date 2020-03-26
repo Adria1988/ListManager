@@ -14,11 +14,7 @@ suite("List", function() {
   test("should get all lists", function() {
     //Arrange
     var emptyLists = {};
-    this.mockJsonfile
-      .expects("readFileSync")
-      .once()
-      .withArgs(JSON_FILENAME)
-      .returns(emptyLists);
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(emptyLists);
     var listManager = createListManager();
     //Act
     var result = listManager.getLists();
@@ -30,19 +26,12 @@ suite("List", function() {
   test("should create a new list with name", function() {
     //Arrange
     var emptyLists = {};
-    this.mockJsonfile
-      .expects("readFileSync")
-      .once()
-      .withArgs(JSON_FILENAME)
-      .returns(emptyLists);
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(emptyLists);
     var listManager = createListManager();
     var lists = {};
     var listName = "ToDo";
     lists[listName] = [];
-    this.mockJsonfile
-      .expects("writeFileSync")
-      .once()
-      .withArgs(JSON_FILENAME, lists);
+    this.mockJsonfile.expects("writeFileSync").once().withArgs(JSON_FILENAME, lists);
     var listManager = createListManager();
 
     //Act
@@ -56,19 +45,13 @@ suite("List", function() {
     var lists = {};
     var listName = "ToDo";
     lists[listName] = [];
-    this.mockJsonfile
-      .expects("readFileSync")
-      .once()
-      .withArgs(JSON_FILENAME)
-      .returns(lists);
-    this.mockJsonfile
-      .expects("writeFileSync")
-      .never(); 
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(lists);
+    this.mockJsonfile.expects("writeFileSync").never(); 
     var listManager = createListManager();
 
     //Act
     //Assert
-    assert.throws(function(){listManager.createList(listName)});
+    assert.throws(function(){listManager.createList(listName)}, /List Exist!/);
     this.mockJsonfile.verify();
   });
 
