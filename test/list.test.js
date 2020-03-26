@@ -15,7 +15,7 @@ suite("List", function() {
     mockJsonfile.expects('readFileSync').once().withArgs(filemame).returns(emptyLists);
     var listObejct = new List();
     //Act
-    var result = listObejct.getLists();
+    var result = listObejct.getLists(jsonfile);
     //Assert
     assert.equal(emptyLists,result);
     mockJsonfile.verify();
