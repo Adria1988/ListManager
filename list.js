@@ -15,6 +15,10 @@ module.exports = function List(jsonfile) {
 
   this.removeList = function(listName) {
     var listCollection = this.getLists();
+
+    if(false == listCollection.hasOwnProperty(listName)){
+      throw Error('List not Exist!');
+    }
     this.forInListCollectionAndListEqualListname(
       listName,
       listCollection, 
