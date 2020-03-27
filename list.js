@@ -13,6 +13,10 @@ module.exports = function List(jsonfile) {
     jsonfile.writeFileSync(JSON_FILENAME, listCollection);
   }
 
+  this.removeList = function(listName) {
+    
+  }
+
   this.throwErrorIfListExistWhenCreate = function(listCollection,listName){
     for(var list in listCollection){
       if(list === listName){
@@ -20,5 +24,7 @@ module.exports = function List(jsonfile) {
       }
     }
   }
+
+
 
 };

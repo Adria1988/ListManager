@@ -53,6 +53,21 @@ suite("List", function() {
     this.mockJsonfile.verify();
   });
 
+  test('should remove a list existing',function(){
+    //Arrange
+    var listName = "ToDo";
+    var lists = createTodoListInListsCollection(listName);
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(lists);
+    var emptyLists = {};
+    this.mockJsonfile.expects("writeFileSync").once().withArgs(JSON_FILENAME, {});
+    var listManager = createListManager();
+
+    //Act
+    listManager.removeList(listName);
+    //Assert
+    this.mockJsonfile.verify();
+  });
+
   function createListManager() {
     return new List(jsonfile);
   }
