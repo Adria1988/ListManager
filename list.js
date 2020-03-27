@@ -24,6 +24,12 @@ module.exports = function List(jsonfile) {
     );
   }
 
+  this.createTaskInList = function(taskName, listName){
+    var listCollection = this.getLists();
+    listCollection[listName].push(taskName);
+    this.writeListCollectionInJson(listCollection);
+  }
+
   this.throwErrorINotExistLIstInLIstCollectionWhenCreate = function(listCollection,listName){
     if(false == listCollection.hasOwnProperty(listName)){
       throw Error('List not Exist!');
@@ -47,10 +53,6 @@ module.exports = function List(jsonfile) {
 
   this.throwErrorIfListExistWhenCreate = function(listCollection,listName){
     this.forInListCollectionAndListEqualListname(listName,listCollection, 'throwErrorListExist', []);
-  }
-
-  this.createTaskInList = function(taskName, listName){
-    
   }
 
   this.throwErrorListExist = function(){
