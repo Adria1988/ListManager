@@ -10,28 +10,42 @@ module.exports = function List(jsonfile) {
     var listCollection = this.getLists();
     this.throwErrorIfListExistWhenCreate(listCollection,listName);
     listCollection[listName] = [];
-    jsonfile.writeFileSync(JSON_FILENAME, listCollection);
+    this.writeListCollectionInJson(listCollection);
   }
 
   this.removeList = function(listName) {
     var listCollection = this.getLists();
+    this.forInListCollectionAndListEqualListname(
+      listName,
+      listCollection, 
+      'deleteListInCollectionAndWriteListCollectionInJson',
+      [listCollection, listName]
+    );
+  }
+
+  this.forInListCollectionAndListEqualListname =function(listName,listCollection, functionName,params){
     for(var list in listCollection){
       if(list === listName){
-        delete listCollection[listName];
-        jsonfile.writeFileSync(JSON_FILENAME, listCollection);
+        this[functionName].apply(this,params);
       }
     }
+  }
 
+  this.deleteListInCollectionAndWriteListCollectionInJson = function(listCollection,listName){
+    delete listCollection[listName];
+    this.writeListCollectionInJson(listCollection);
+  }
+
+  this.writeListCollectionInJson = function(listCollection){
+    jsonfile.writeFileSync(JSON_FILENAME, listCollection);
   }
 
   this.throwErrorIfListExistWhenCreate = function(listCollection,listName){
-    for(var list in listCollection){
-      if(list === listName){
-          throw new Error('List Exist!')
-      }
-    }
+    this.forInListCollectionAndListEqualListname(listName,listCollection, 'throwErrorListExist', []);
   }
 
-
+  this.throwErrorListExist = function(){
+    throw new Error('List Exist!')
+  }
 
 };
