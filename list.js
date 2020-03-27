@@ -14,7 +14,14 @@ module.exports = function List(jsonfile) {
   }
 
   this.removeList = function(listName) {
-    
+    var listCollection = this.getLists();
+    for(var list in listCollection){
+      if(list === listName){
+        delete listCollection[listName];
+        jsonfile.writeFileSync(JSON_FILENAME, listCollection);
+      }
+    }
+
   }
 
   this.throwErrorIfListExistWhenCreate = function(listCollection,listName){
