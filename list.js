@@ -49,6 +49,10 @@ module.exports = function List(jsonfile) {
     this.forInListCollectionAndListEqualListname(listName,listCollection, 'throwErrorListExist', []);
   }
 
+  this.createTaskInList = function(taskName, listName){
+    
+  }
+
   this.throwErrorListExist = function(){
     throw new Error('List Exist!')
   }

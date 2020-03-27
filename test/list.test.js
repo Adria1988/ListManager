@@ -82,6 +82,23 @@ suite("List", function() {
     this.mockJsonfile.verify();
   });
 
+    test('should add task in a list', function(){
+    //Arrange
+    var listName = "ToDo";
+    var listsCollection = createTodoListInListsCollection(listName);
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(listsCollection);
+    var taskName = 'Add task in a list';
+    listsCollection[listName].push(taskName);
+    this.mockJsonfile.expects("writeFileSync").once().withArgs(JSON_FILENAME, listsCollection);
+    var listManager = createListManager();
+
+    //Act
+    listManager.createTaskInList(taskName, listName);
+    //Assert
+    this.mockJsonfile.verify();
+
+  });
+
   function createListManager() {
     return new List(jsonfile);
   }
