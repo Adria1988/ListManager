@@ -28,9 +28,8 @@ suite("List", function() {
     var emptyLists = {};
     this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(emptyLists);
     var listManager = createListManager();
-    var lists = {};
     var listName = "ToDo";
-    lists[listName] = [];
+    var lists = createTodoListInListsCollection(listName);
     this.mockJsonfile.expects("writeFileSync").once().withArgs(JSON_FILENAME, lists);
     var listManager = createListManager();
 
@@ -42,9 +41,8 @@ suite("List", function() {
 
   test("should throw error hey try create list with a name existing", function() {
     //Arrange
-    var lists = {};
     var listName = "ToDo";
-    lists[listName] = [];
+    var lists = createTodoListInListsCollection(listName);
     this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(lists);
     this.mockJsonfile.expects("writeFileSync").never(); 
     var listManager = createListManager();
@@ -58,4 +56,11 @@ suite("List", function() {
   function createListManager() {
     return new List(jsonfile);
   }
+
+  function createTodoListInListsCollection(listName){
+    var lists = {};
+    lists[listName] = [];
+    return lists;
+  }
+  
 });

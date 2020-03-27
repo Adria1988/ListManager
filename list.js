@@ -7,14 +7,18 @@ module.exports = function List(jsonfile) {
   }
 
   this.createList = function(listName) {
-    var lists = this.getLists();
-    for(var list in lists){
+    var listCollection = this.getLists();
+    this.throwErrorIfListExistWhenCreate(listCollection,listName);
+    listCollection[listName] = [];
+    jsonfile.writeFileSync(JSON_FILENAME, listCollection);
+  }
+
+  this.throwErrorIfListExistWhenCreate = function(listCollection,listName){
+    for(var list in listCollection){
       if(list === listName){
           throw new Error('List Exist!')
       }
     }
-    lists[listName] = [];
-    jsonfile.writeFileSync(JSON_FILENAME, lists);
   }
 
 };
