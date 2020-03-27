@@ -15,10 +15,7 @@ module.exports = function List(jsonfile) {
 
   this.removeList = function(listName) {
     var listCollection = this.getLists();
-
-    if(false == listCollection.hasOwnProperty(listName)){
-      throw Error('List not Exist!');
-    }
+    this.throwErrorINotExistLIstInLIstCollectionWhenCreate(listCollection,listName);
     this.forInListCollectionAndListEqualListname(
       listName,
       listCollection, 
@@ -27,11 +24,15 @@ module.exports = function List(jsonfile) {
     );
   }
 
+  this.throwErrorINotExistLIstInLIstCollectionWhenCreate = function(listCollection,listName){
+    if(false == listCollection.hasOwnProperty(listName)){
+      throw Error('List not Exist!');
+    }
+  }
+
   this.forInListCollectionAndListEqualListname =function(listName,listCollection, functionName,params){
-    for(var list in listCollection){
-      if(list === listName){
-        this[functionName].apply(this,params);
-      }
+    if(true == listCollection.hasOwnProperty(listName)){
+      this[functionName].apply(this,params);
     }
   }
 

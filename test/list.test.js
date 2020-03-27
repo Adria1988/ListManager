@@ -76,7 +76,6 @@ suite("List", function() {
     var listManager = createListManager();
     var listName = "ToDo";
 
-
     //Act
     //Assert
     assert.throws(function(){listManager.removeList(listName)}, /List not Exist!/);
