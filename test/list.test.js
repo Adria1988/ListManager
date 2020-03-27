@@ -68,6 +68,21 @@ suite("List", function() {
     this.mockJsonfile.verify();
   });
 
+  test('should throw error when remove a list not exist', function(){
+    //Arrange
+    var emptyLists = {};
+    this.mockJsonfile.expects("readFileSync").once().withArgs(JSON_FILENAME).returns(emptyLists);
+    this.mockJsonfile.expects("writeFileSync").never(); 
+    var listManager = createListManager();
+    var listName = "ToDo";
+
+
+    //Act
+    //Assert
+    assert.throws(function(){listManager.removeList(listName)}, /List not Exist!/);
+    this.mockJsonfile.verify();
+  });
+
   function createListManager() {
     return new List(jsonfile);
   }
